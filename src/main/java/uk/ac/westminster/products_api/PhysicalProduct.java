@@ -5,8 +5,9 @@ package uk.ac.westminster.products_api;
 //One other class a shop system might have is storage
 
 
-public class PhysicalProduct extends Product{
+public class PhysicalProduct extends Product implements  Discountable{
 
+    private double discountedPrice;
     private double weightKg;
     private String dimensions;
 
@@ -23,5 +24,23 @@ public class PhysicalProduct extends Product{
 
     public String getDimensions(){
         return dimensions;
+    }
+
+    @Override
+    public String getSummary() {
+        return "Physical: " + getName() + "| Weight: " + getWeightKg();
+    }
+
+    @Override
+    public void applyDiscount (double rate){
+        double capped = Math.min(rate, 0.20);
+        this.discountedPrice = getPrice() + (1 - capped);
+
+
+    }
+
+    @Override
+    public double getDiscountedPrice() {
+        return discountedPrice;
     }
 }
